@@ -1,0 +1,32 @@
+<section layout="row" flex style="height: 100%">
+    <md-sidenav scroll class="md-sidenav-left
+        md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-xs')">
+        <md-toolbar >
+            <h1 class="md-toolbar-tools">Projekt "Industrie 4.0"</h1>
+        </md-toolbar>
+        <md-content layout-padding>
+            <md-button class="toolbareintraege md-accent" ui-sref="view1" ng-click="navigation.toggleLeft()">Allgemein</md-button>
+            <md-button class="toolbareintraege md-accent" ui-sref="view3" ng-click="navigation.toggleLeft()">Kunden</md-button>
+
+        <md-content layout-padding style="overflow:initial" class="progress-wrapper">
+            <h4 style="text-align:center">Zustand des aktuellen Auftrags:</h4>
+            <h5 style="text-align:center">{{navigation.getCurrentOrder}}</h5>
+            <div style="text-align:center">
+            <round-progress
+                    max="31"
+                    current="navigation.getCurrentStatus"
+                    color="#ff9800"
+                    bgcolor="#eaeaea"
+                    radius="100"
+                    stroke="20"
+                    semi="false"
+                    rounded="true"
+                    clockwise="false"
+                    responsive="true"
+                    duration="800"
+                    animation="easeInOutQuart"
+                    animation-delay="0"></round-progress>
+            </div>
+        </md-content>
+    </md-sidenav>
+</section>

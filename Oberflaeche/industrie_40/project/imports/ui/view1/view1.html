@@ -1,0 +1,83 @@
+<link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+<div ng-cloak>
+    <md-card>
+        <h3>  Aktueller Auftrag:{{view1.getCurrentOrder2}}</h3>
+    </md-card>
+            <md-content class="md-primary" layout-xs="column" layout-sm="column" layout="row">
+                <md-card ng-repeat="werte in view1.cardRow" ng-click="view1.changeChart(werte.type)"
+                         flex="100"
+                         flex-gt-sm="25">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{werte.name}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content ng-if="werte.status == 'aktuell'">
+                        <md-card-content ng-if="werte.type=='ds'">
+                            <h1 style="text-align: center"> {{view1.getDSpeedAktuell|roundup}}</h1>
+                        </md-card-content>
+                        <md-card-content ng-if="werte.type=='dh'">
+                            <h1 style="text-align: center"> {{view1.getDHeatAktuell|roundup}}</h1>
+                        </md-card-content>
+                        <md-card-content  ng-if="werte.type=='ms'">
+                            <h1 style="text-align: center" > {{view1.getMSpeedAktuell|roundup}}</h1>
+                        </md-card-content>
+                        <md-card-content  ng-if="werte.type=='mh'">
+                            <h1 style="text-align: center"> {{view1.getMHeatAktuell|roundup}}</h1>
+                        </md-card-content>
+                    </md-card-content>
+                    <md-card-content ng-if="werte.status == 'maximum'">
+                        <md-card-content ng-if="werte.type=='ds'">
+                            <h1 style="text-align: center"> {{view1.getDSpeedMaximum|roundup}}</h1>
+                        </md-card-content>
+                        <md-card-content ng-if="werte.type=='dh'">
+                            <h1 style="text-align: center"> {{view1.getDHeatMaximum|roundup}}</h1>
+                        </md-card-content>
+                        <md-card-content  ng-if="werte.type=='ms'">
+                            <h1 style="text-align: center" > {{view1.getMSpeedMaximum|roundup}}</h1>
+                        </md-card-content>
+                        <md-card-content  ng-if="werte.type=='mh'">
+                            <h1 style="text-align: center"> {{view1.getMHeatMaximum|roundup}}</h1>
+                        </md-card-content>
+                    </md-card-content>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button class="md-icon-button  md-accent md-raised" ng-click="view1.changeStatus('maximum',werte.type)">
+                            <md-tooltip md-direction="top">Maximum</md-tooltip>
+                            <i class="material-icons">arrow_upward</i></md-button>
+                        <md-button class="md-icon-button md-raised md-accent" ng-click="view1.changeStatus('aktuell',werte.type)">
+                            <md-tooltip md-direction="top">Aktuell</md-tooltip>
+                            <i class="material-icons">autorenew</i>
+                        </md-button>
+                    </md-card-actions>
+                </md-card>
+        </md-content>
+
+    <md-content>
+            <md-card flex ng-repeat="charts in view1.chartRow" ng-if="view1.showCharttype==charts.ctype">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{charts.name}}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <canvas class="chart-base" chart-data="charts.data" chart-type="charts.type"
+                        chart-labels="charts.labels" chart-series="charts.series" chart-options="charts.options"
+                        chart-dataset-override="charts.datasetOverride" chart-click="onClick" height="20"
+                        width="100">
+                </canvas>
+            </md-card>
+        </md-content>
+ <md-card>
+    <table style="width:100%">
+        <tr>
+            <th>Kundennummer</th>
+            <th>Anzahl der Bestellungen</th>
+            <th>Letzte Bestellung</th>
+        </tr>
+        <tr ng-repeat="info in view1.getCustomerInfos | orderBy: '-kundennummer':true" style="text-align: center">
+            <td>{{info.kundennummer}}</td>
+            <td>{{info.anzahl}}</td>
+            <td>{{info.lastOrder|date:'dd.MM.yyyy @ HH:mm'}}</td>
+        </tr>
+    </table>
+    </md-card>
+</div>
