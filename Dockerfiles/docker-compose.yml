@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+    kafka:
+        build: ./Kafka
+        ports:
+            - "2181:2181"
+            - "9092:9092"
+    activemq:
+        build: ./Activemq
+        ports:
+            - "61616:61616"
+            - "8161:8161"
+            - "5672:5672"
+            - "61613:61613"
+            - "1883:1883"
+            - "61614:61614"
+    taktstrasse:
+        build: ./Taktstrasse
+        links:
+            - kafka
+            - activemq
+            - mongodb
+    mongodb:
+        build: ./MongoDB
+        container_name: database
+        ports:
+            - "27017:27017"
+    meteor:
+        build: ./Meteor
+        links:
+            - kafka
+            - mongodb
+        ports:
+            - "80:3000"
+    spark:
+        build: ./Spark
+        links:
+            - kafka
+        ports:
+            - "8080:8080"
+            - "7077:7077"
+        environment:
+            - SPARK_OPTS="--driver-memory=5g --executor-memory=5g"
+            - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
